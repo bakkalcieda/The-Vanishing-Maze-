@@ -8,24 +8,15 @@
     <script defer src ="script/script.js"></script>
 </head>
 <body>  
-
-    <!--  Barre d'infos  -->
-    <div id="barre-info">
-        <div class="stat">
-            <span class="stat-label">NIVEAU</span>
-            <span class="stat-value" id="affichage-niveau">1</span>
-        </div>
-        <div class="stat">
-            <span class="stat-label">SCORE</span>
-            <span class="stat-value" id="affichage-score">0</span>
-        </div>
-        <div class="stat">
-            <span class="stat-label">VIES</span>
-            <span class="stat-value" id="affichage-vies">❤️❤️❤️</span>
-        </div>
+    <div id="conteneur">
+        <h1 id="titre">Labyrinthe</h1>
+        <p id="timer">Mémorise !</p>
+        <canvas id="canvas"></canvas>
+        <p id="message"></p>
+        <button id="boutonSuivant" style="display:none;">
+            Niveau suivant
+        </button>
     </div>
-    
-</div>
 
 </body>
 </html>

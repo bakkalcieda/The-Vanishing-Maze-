@@ -5,118 +5,55 @@
 }
 
 body {
-    background-color: rgba(233, 112, 229, 0.736);
+    background-color: #434378;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+#conteneur {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#titre {
     color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    padding: 18px;
-    font-family: 'Courier New', Courier, monospace;
-}
-
-/* ------------------------------------------- */
-/* ---------------- Barre d'infos------------- */
-
-#barre-info {
-    display: flex;
-    gap : 50px;
-    margin-bottom: 18px;
-    padding: 12px 24px;
-    border-bottom: 2px solid #333;
-}
-
-.stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap : 4px;
-}
-
-.stat-label {
-    font-size: 12px;
-    color: #666;
-    text-transform: uppercase;
+    font-size: 2rem;
     letter-spacing: 3px;
 }
 
-stat-value {
-    font-size: 20px;
-    color: wheat;
-}
-/* -------------------------------------------- */
-/* ------------ CANVAS ------------------------ */
-
-#conteneur-canvas {
-    border: 2px solid #333;
+#timer {
+    color: #e94560;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
-canvas {
-    display: block;
+#canvas {
+    border: 3px solid white;
+    background-color: white;
 }
 
-/* -------------------------------------------------- */
-/* ---------------- Bare de temps ------------------- */
-
-#conteneur-barre {
-    width: 100%;
-    height: 6px;
-    max-width: 480px;
-    background-color: #333;
-    margin-top: 14px;
+#message {
+    color: #0f3460;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
 }
 
-#barre-temps {
-    background-color: wheat;
-    height: 100%;
-    width: 100%;
-    transition: width 0.1s linear;
-}
-
-/* ----------------------------------------------------------------- */
-/* ------------------ Overlay ------------------------------ */
-
-#overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    background-color: black;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-    z-index: 10;
-}
-
-#overlay-titre {
-    font-size: 1.8rem;
-    color: wheat;
-    text-align: center;
-}
-
-#overlay-message {
-    font-size: 1rem;
-    color: #666;
-    max-width: 300px;
-    text-align: center;
-    line-height: 1.6px;
-}
-
-#bouton-jouer {
-    background-color: wheat;
-    color: black;
-    font-family: 'Courier New', Courier, monospace;
-    cursor : pointer;
+#boutonSuivant {
+    background-color: #e94560;
+    color: white;
     border: none;
-    padding: 12px 36px;
+    padding: 10px 30px;
     font-size: 1rem;
-    letter-spacing: 2px;
-    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-#bouton-jouer:hover {
-    background-color: #ddd;
+#boutonSuivant:hover {
+    background-color: #c73652;
 }
