@@ -46,7 +46,7 @@ function recupererConfigNiveau(numero) {
     }
 }
 //------------------------------------------------------------------------------------------------------------------------------------
-// -- 2 : GÉNÉRATION DU LABYRINTHE ---//
+// ---------------------- 2 : GÉNÉRATION DU LABYRINTHE --------------------------//
 // - je crée une grille vide où chaque case a 4 murs
 // - j'utilise l'algorithme "recursive backtracker"
 // - il explore les cases au hasard et casse des murs pour créer des chemins
@@ -171,28 +171,57 @@ function genererLabyrinthe(grille, colonnes, lignes) {
         explorer(0, 0);
         return grille;
     }
-// ----------------------------------------------------------------------------------------------------------------------------------//
-//--------------------------------- 3. STATE DU JEU -------------------------------------------------------------------------//
-
-
-let etatJeu = {
-    niveauActuel    : 1,        // niveau en cours (1, 2 ou 3)
-    grille          : null,     // le labyrinthe généré
-    colonnes        : 0,        // nb de colonnes de la grille
-    lignes          : 0,        // nb de lignes de la grille
-    rayonVision     : 0,        // rayon de vision du joueur
-    tempsMemoire    : 0,        // temps pour mémoriser en ms
-
-    joueur : {
-        col : 0,                // colonne du joueur
-        lig : 0                 // ligne du joueur
-    },
-
-    arrivee : {
-        col : 0,                // colonne de l'arrivée
-        lig : 0                 // ligne de l'arrivée
-    },
-
-    phaseJeu : "memorisation",  // "memorisation" ou "deplacement"
-    partieTerminee : false      // true quand le joueur a gagné
-};
+    // ----------------------------------------------------------------------------------------------------------------------------------//
+    //--------------------------------- 3. STATE DU JEU -------------------------------------------------------------------------//
+    // - je stock tte les infos de la partie en cours ( position joueur,labyritnhe,niveau etc)
+    
+    let etatJeu = {
+        niveauActuel    : 1,        // niveau en cours (1, 2 ou 3)
+        grille          : null,     // le labyrinthe généré
+        colonnes        : 0,        // nb de colonnes de la grille
+        lignes          : 0,        // nb de lignes de la grille
+        rayonVision     : 0,        // rayon de vision du joueur
+        tempsMemoire    : 0,        // temps pour mémoriser en ms
+        
+        joueur : {
+            col : 0,                // colonne du joueur
+            lig : 0                 // ligne du joueur
+        },
+        
+        arrivee : {
+            col : 0,                // colonne de l'arrivée
+            lig : 0                 // ligne de l'arrivée
+        },
+        
+        phaseJeu : "memorisation",  // "memorisation" ou "deplacement"
+        partieTerminee : false      // true quand le joueur a gagné
+    };
+    
+    // -----------------------------------------------------------------------------//
+    //------------------------ 4) Initizisation partie ------------------------------//
+    // - je charge la config du niveau
+    // - je crée et génère le labyrinthe
+    // - je place le joueur en haut à gauche
+    // - je place l'arrivée en bas à droite
+    // -------------------------------------------------------------------------------------------------------------------------------//
+    function initialiserPartie(numero) {
+        let config = recupererConfigNiveau(numero);
+        etatJeu.niveauActuel = numero;
+        etatJeu.colonnes = config.colonnes;
+        etatJeu.rayonVision = config.rayonVision;
+        etatJeu.tempsMemoire = config.tempsMemoire;
+        
+        // je genere le labyrinthe
+        let grilleVide = creerGrille(config.colonnes,config.lignes);
+        etatJeu.grille = genererLabyrinthe(grilleVide,config.colonnes, config.lignes);
+        //joueur en haut a gauvhe
+        etatJeu.joueur.col = 0;
+        etatJeu.joueur.lig = 0;
+        //arrivée en bas à droite 
+        etatJeu.arrivee.col = config.colonnes -1;
+        etatJeu.arrivee.lig = config.lignes -1;
+        
+        etatJeu.phaseJeu = "memorisation";
+        etatJeu.partieTerminee = false;
+    }
+//-----------------------------------------------------------------//
