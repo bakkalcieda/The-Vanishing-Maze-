@@ -45,3 +45,154 @@ function recupererConfigNiveau(numero) {
         return { colonnes: NIVEAU3_COLONNES, lignes: NIVEAU3_LIGNES, tempsMemoire: NIVEAU3_TEMPS, rayonVision: NIVEAU3_RAYON };
     }
 }
+//------------------------------------------------------------------------------------------------------------------------------------
+// -- 2 : GÉNÉRATION DU LABYRINTHE ---//
+// - je crée une grille vide où chaque case a 4 murs
+// - j'utilise l'algorithme "recursive backtracker"
+// - il explore les cases au hasard et casse des murs pour créer des chemins
+// - quand il est bloqué il recule jusqu'à trouver un autre chemin
+// - quand toutes les cases sont visitées le labyrinthe est prêt
+//--------------------------------------------------------------------------------------------------//
+// chaque case a 4 murs et un statut visité
+// 0 = pas visité / 1 = visité
+function creerCase() {
+    return {
+        murHaut   : true,
+        murBas    : true,
+        murGauche : true,
+        murDroit  : true,
+        visite    : 0
+    };
+}
+// je crée toutes les cases de la grille et je les stocke dans un objet
+// la clé de chaque case est "col-lig" ex: "0-0", "1-0", "2-3"
+function creerGrille(colonnes, lignes) {
+    let grille = {};
+    
+    function remplirGrille(col, lig) {
+        // si on a dépassé toutes les lignes, la grille est finie
+        if (lig >= lignes) return;
+        
+        // si on a dépassé toutes les colonnes, on passe à la ligne suivante
+        if (col >= colonnes) {
+            remplirGrille(0, lig + 1);
+            return;
+        }
+        
+        // je crée la case et on passe à la colonne suivante
+        grille[col + "-" + lig] = creerCase();
+        remplirGrille(col + 1, lig);
+    }
+    
+    remplirGrille(0, 0);
+    return grille;
+}
+//--------------------------------------------------
+// ALGORITHME RECURSIVE BACKTRACKER
+// - je pars d'une case
+// - je regarde mes voisins non visités
+// - j'en choisis un au hasard et je casse le mur entre nous
+// - je recommence depuis ce voisin
+// - si je suis bloqué je recule automatiquement (récursion)
+//--------------------------------------------------
+
+function melangerTableau(tableau) {
+    // je mélange le tableau avec Fisher-Yates
+    let i = tableau.length;
+    function melanger(i) {
+        if (i <= 1) return tableau;
+        let j = Math.floor(Math.random() * i);
+        let temp = tableau[i - 1];
+        tableau[i - 1] = tableau[j];
+        tableau[j] = temp;
+        return melanger(i - 1);
+    }
+    return melanger(i);
+}
+
+function genererLabyrinthe(grille, colonnes, lignes) {
+    
+    function explorer(col, lig) {
+        // je marque la case comme visitée
+        grille[col + "-" + lig].visite = 1;
+        
+        // mes 4 voisins possibles
+        let voisins = [
+            { col: col,     lig: lig - 1, direction: "haut"   },
+            { col: col,     lig: lig + 1, direction: "bas"    },
+            { col: col - 1, lig: lig,     direction: "gauche" },
+            { col: col + 1, lig: lig,     direction: "droite" }
+        ];
+        
+        // je mélange pour explorer dans un ordre aléatoire
+        voisins = melangerTableau(voisins);
+        
+        function explorerVoisins(index) {
+            if (index >= voisins.length) return;
+            
+            let voisin = voisins[index];
+            let cle = voisin.col + "-" + voisin.lig;
+            
+            // je vérifie que le voisin existe et n'est pas visité
+            if (
+                voisin.col >= 0 && voisin.col < colonnes &&
+                voisin.lig >= 0 && voisin.lig < lignes &&
+                grille[cle].visite === 0
+                ) {
+                    // je casse le mur entre moi et mon voisin
+                    if (voisin.direction === "haut") {
+                        grille[col + "-" + lig].murHaut = false;
+                        grille[cle].murBas = false;
+                    }
+                    if (voisin.direction === "bas") {
+                        grille[col + "-" + lig].murBas = false;
+                        grille[cle].murHaut = false;
+                    }
+                    if (voisin.direction === "gauche") {
+                        grille[col + "-" + lig].murGauche = false;
+                        grille[cle].murDroit = false;
+                    }
+                    if (voisin.direction === "droite") {
+                        grille[col + "-" + lig].murDroit = false;
+                        grille[cle].murGauche = false;
+                    }
+                    
+                    // je continue depuis ce voisin
+                    explorer(voisin.col, voisin.lig);
+                }
+                
+                explorerVoisins(index + 1);
+            }
+            
+            explorerVoisins(0);
+        }
+        
+        // je commence depuis la case en haut à gauche
+        explorer(0, 0);
+        return grille;
+    }
+// ----------------------------------------------------------------------------------------------------------------------------------//
+//--------------------------------- 3. STATE DU JEU -------------------------------------------------------------------------//
+
+
+let etatJeu = {
+    niveauActuel    : 1,        // niveau en cours (1, 2 ou 3)
+    grille          : null,     // le labyrinthe généré
+    colonnes        : 0,        // nb de colonnes de la grille
+    lignes          : 0,        // nb de lignes de la grille
+    rayonVision     : 0,        // rayon de vision du joueur
+    tempsMemoire    : 0,        // temps pour mémoriser en ms
+
+    joueur : {
+        col : 0,                // colonne du joueur
+        lig : 0                 // ligne du joueur
+    },
+
+    arrivee : {
+        col : 0,                // colonne de l'arrivée
+        lig : 0                 // ligne de l'arrivée
+    },
+
+    phaseJeu : "memorisation",  // "memorisation" ou "deplacement"
+    partieTerminee : false      // true quand le joueur a gagné
+};
