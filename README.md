@@ -4,7 +4,7 @@
 
 ---
 
- 🇫🇷 Français
+ Français
 
 ### 📌 À propos du projet
 The Vanishing Maze est un jeu web interactif où le joueur doit mémoriser puis traverser un labyrinthe généré aléatoirement.
