@@ -1,10 +1,10 @@
 # 🧩 The Vanishing Maze
-### 🎮DEMO 
+
 ![Maze Demo](maze.gif)
 
 ---
 
- Français
+## 🇫🇷 Français
 
 ### 📌 À propos du projet
 The Vanishing Maze est un jeu web interactif où le joueur doit mémoriser puis traverser un labyrinthe généré aléatoirement.
@@ -38,7 +38,7 @@ Le joueur commence en haut à gauche et doit atteindre la sortie en bas à droit
 
 ---
 
-### 👁️ Système de vision (brouillard)
+#### 👁️ Système de vision (brouillard)
 Pendant la phase de déplacement :
 - le joueur ne voit qu’une partie du labyrinthe
 - les cases visibles sont calculées avec une distance euclidienne
@@ -87,9 +87,9 @@ Le labyrinthe est dessiné avec le Canvas HTML5 :
 ### ▶️ Lancer le projet
 Ouvrir le fichier `index.html` dans un navigateur.
 
-----------------------------------------------------------------------------------------------------------------
+---
 
-##  English
+## 🇬🇧 English
 
 ### 📌 About the project
 The Vanishing Maze is an interactive web game where the player must memorize and navigate through a randomly generated maze.
