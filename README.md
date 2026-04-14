@@ -1,6 +1,6 @@
 # 🧩 The Vanishing Maze
 
-![Maze Demo](maze.gif)
+![Maze Demo](maze.gif.gif)
 
 ---
 
